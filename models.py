@@ -14,7 +14,7 @@ DB_NAME = os.getenv('DB_NAME', 'covid')
 database_path = "postgres://{}:{}@{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
 """
 
-database_path='postgres://qrjpxglmlwfvmj:0704636590cebfd1a6fe3b8942bf8d8c936a8bd5e12bd3765f3a6c88af9fb604@ec2-23-23-133-10.compute-1.amazonaws.com:5432/dcup748f1vqo46'
+database_path='postgresql://qrjpxglmlwfvmj:0704636590cebfd1a6fe3b8942bf8d8c936a8bd5e12bd3765f3a6c88af9fb604@ec2-23-23-133-10.compute-1.amazonaws.com:5432/dcup748f1vqo46'
 
 
 db = SQLAlchemy()
