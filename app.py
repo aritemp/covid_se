@@ -5,8 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 #import random
 
-from models import db, setup_db, Cases, Vaccination
-from auth.auth import AuthError, requires_auth
+from .models import db, setup_db, Cases, Vaccination
+from .auth.auth import AuthError, requires_auth
 
 
 # reference:  Exercise 4 - TDD for APIs
