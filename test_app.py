@@ -3,8 +3,8 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 
-from flaskr import create_app
-from models import setup_db, Question, Category
+from app import create_app
+from models import db, setup_db, Cases, Vaccination
 
 
 class CovidSETestCase(unittest.TestCase):
@@ -18,7 +18,7 @@ class CovidSETestCase(unittest.TestCase):
         self.DB_USER = os.getenv('DB_USER', 'postgres')
         self.DB_PASSWORD = os.getenv('DB_PASSWORD', 'fwd2021')
         self.DB_NAME = os.getenv('DB_NAME', 'covid')
-        self.database_path = "postgres://{}:{}@{}/{}".format(self.DB_USER, self.DB_PASSWORD, self.DB_HOST, self.DB_NAME)
+        self.database_path = "postgresql://{}:{}@{}/{}".format(self.DB_USER, self.DB_PASSWORD, self.DB_HOST, self.DB_NAME)
         setup_db(self.app, self.database_path)
         
         self.admin= os.getenv('ADMIN')
@@ -54,7 +54,10 @@ class CovidSETestCase(unittest.TestCase):
     def test_404_no_valid_cases(self):
 
         # get the request with invalid page
-        res = self.client().get('/cases)
+        res = self.client().get('/cases',
+            headers={
+                "Authorization": "Bearer {}".format(
+                    self.user)})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -118,7 +121,28 @@ class CovidSETestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertTrue(data['message'], 'Please provide correct age group!')
 
-
+    def test_create_vaccin(self):
+        
+        new_cases = { "age_group":"80-89",
+            "kommun_namn":"TEST_Vallentuna",
+            "num_fully_vaccinated":1545,
+            "num_minst_1_dos":1095,
+            "population":1243,
+            "proportion_of_fully_vaccinated":0.9070290390000001,
+            "proportion_of_minst_1_dos":0.9780290390000001,
+            "region":"Stockholm",
+            "vaccination_info_id":10 }
+        
+        res = self.client().post('/vaccinations', json=new_cases, headers={
+                "Authorization": "Bearer {}".format(
+                    self.admin)})
+        data = json.loads(res.data)
+        # check if the vaccin info has been created or not 
+        vaccin = Vaccination.query.filter_by(id=data['vaccination_info_id']).one_or_none()
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertIsNotNone(vaccin)
+        
     def test_400_vaccin_creation_failure(self):
 
         # create a new vaccin
@@ -151,7 +175,7 @@ class CovidSETestCase(unittest.TestCase):
 
     def test_fetch_vaccin_by_id(self):
 
-        res = self.client().get('/vaccinations/2', json={}, headers={
+        res = self.client().get('/vaccinations/11', json={}, headers={
                 "Authorization": "Bearer {}".format(
                     self.admin)})
         data = json.loads(res.data)
@@ -170,14 +194,14 @@ class CovidSETestCase(unittest.TestCase):
 
     def test_delete_vaccin(self):
         
-        res = self.client().delete('/vaccinations/6', json={}, headers={
+        res = self.client().delete('/vaccinations/10', json={}, headers={
                 "Authorization": "Bearer {}".format(
                     self.admin)})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['deleted'], 6)
+        self.assertEqual(data['deleted_vaccination_info_id'], 10)
         
 
     def test_404_delete_vaccin(self):
@@ -195,7 +219,7 @@ class CovidSETestCase(unittest.TestCase):
          
         res = self.client().post('/vaccinations', json={
             'vaccination_info_id':5000,
-            'region': 'Skåne',
+            'region': 'Skoone',
             'kommun_namn': 'Äöge',   # fake data
             'age_group': '10-15',
             'population': 56666,
