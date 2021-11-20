@@ -183,8 +183,7 @@ def create_app(test_config=None):
     def fetch_top10_vaccinations(): 
         # get top 10 fully vaccinated age group & region
         vaccin = db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated).label('total_number_of_fully_vaccinated')).group_by(Vaccination.age_group, Vaccination.region).order_by(func.sum(Vaccination.num_fully_vaccinated).desc()).limit(10).all()
-        
-        print({i:row._asdict() for i, row in enumerate(vaccin)})
+
         # [vac.format().get('region') for vac in vaccin]
         # abort for bad request if no vaccin info
         if vaccin is None:
@@ -192,7 +191,7 @@ def create_app(test_config=None):
 
         return jsonify({
             'success': True,
-            'top 10 fully vaccinated [age_group, region, total_number_of_fully_vaccinated]': 0
+            'top 10 fully vaccinated': {i+1:row._asdict() for i, row in enumerate(vaccin)}
             })
 
 
