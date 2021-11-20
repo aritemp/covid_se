@@ -78,7 +78,7 @@ def create_app(test_config=None):
 
         return jsonify({
             'success': True,
-            'cases_info': cases.format()
+            'case_info': cases.format()
         })
 
     @app.route('/cases', methods=['POST'])
@@ -191,7 +191,7 @@ def create_app(test_config=None):
 
         return jsonify({
             'success': True,
-            'top 10 fully vaccinated': {i+1:row._asdict() for i, row in enumerate(vaccin)}
+            'top 10 fully vaccinated groups': {i+1:row._asdict() for i, row in enumerate(vaccin)}
             })
 
 
