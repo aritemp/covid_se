@@ -190,10 +190,10 @@ def create_app(test_config=None):
         if vaccin is None:
             abort(400)
 
-       # return jsonify({
-           # 'success': True,
-           # 'top 10 fully vaccinated [age_group, region, total_number_of_fully_vaccinated]': 0
-           # })
+        return jsonify({
+            'success': True,
+            'top 10 fully vaccinated [age_group, region, total_number_of_fully_vaccinated]': 0
+            })
 
 
     @app.route('/vaccinations/<int:vacc_id>', methods=['GET'])
