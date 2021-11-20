@@ -318,6 +318,7 @@ Arianna E.
 - https://til.cybertec-postgresql.com/post/2019-09-12-%22PostgreSQL-CSV-Import:-missing-data-for-column-%22...%22%22/
 - https://chartio.com/resources/tutorials/how-to-change-a-user-to-superuser-in-postgresql/
 - https://stackoverflow.com/questions/40918479/querying-with-function-on-flask-sqlalchemy-model-gives-basequery-object-is-not-c
+- https://riptutorial.com/sqlalchemy/example/6614/converting-a-query-result-to-dict
 - https://stackoverflow.com/questions/62688256/sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy-dialectspostgre
 - https://github.com/udacity/cd0037-API-Development-and-Documentation-exercises/blob/master/4_TDD_Review/backend/flaskr/__init__.py
 - https://github.com/morphocluster/morphocluster/tree/master/migrations
