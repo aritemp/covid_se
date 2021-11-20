@@ -233,23 +233,23 @@ def create_app(test_config=None):
                 'message': 'Information is missing.'
                 })
 
-        try:
-            vaccin = Vaccination(id=vacc_id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
+        #try:
+        vaccin = Vaccination(id=vacc_id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
                              num_minst_1_dos=num_minst_1_dos, num_fully_vaccinated=num_fully_vaccinated,
                              proportion_of_minst_1_dos=proportion_of_minst_1_dos,
                              proportion_of_fully_vaccinated=proportion_of_fully_vaccinated)
-            vaccin.insert()
-            print(vaccin)
-            vacc_format = Vaccination.query.get(vaccin.id).format()
+        vaccin.insert()
+        print(vaccin)
+        vacc_format = Vaccination.query.get(vaccin.id).format()
         #print(vacc_format)
-            return jsonify({
+        return jsonify({
                 'success': True,
                 'age_group': vaccin.age_group,
-                'new_vaccination': vacc_format
+                'new_vaccination': 1
                })
 
-        except Exception:
-            abort(422)
+        #except Exception:
+            #abort(422)
 
 
     @app.route('/vaccinations/<int:vacc_id>', methods=['DELETE'])
