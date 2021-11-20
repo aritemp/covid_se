@@ -180,12 +180,11 @@ def create_app(test_config=None):
     # Vaccination
     @app.route('/vaccinations', methods=['GET'])
     #@requires_auth('get:vaccin')
-    def fetch_top10_vaccinations(): #
-        print(db)
-        print(db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated)).group_by(Vaccination.age_group, Vaccination.region))
+    def fetch_top10_vaccinations(): 
         # get top 10 fully vaccinated age group & region
-        vaccin = db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated).label('total')).group_by(Vaccination.age_group, Vaccination.region).order_by(func.sum(Vaccination.num_fully_vaccinated).desc()).limit(10).all()
-        print(jsonify({'result': [row._asdict() for row in vaccin]}))
+        vaccin = db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated).label('total_number_of_fully_vaccinated')).group_by(Vaccination.age_group, Vaccination.region).order_by(func.sum(Vaccination.num_fully_vaccinated).desc()).limit(10).all()
+        
+        print(jsonify({'result': {i:row._asdict() for i, row in enumerate(vaccin)}))
         # [vac.format().get('region') for vac in vaccin]
         # abort for bad request if no vaccin info
         if vaccin is None:
