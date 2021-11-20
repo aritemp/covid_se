@@ -185,16 +185,17 @@ def create_app(test_config=None):
         print(db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated)).group_by(Vaccination.age_group, Vaccination.region))
         # get top 10 fully vaccinated age group & region
         vaccin = db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated).label('total')).group_by(Vaccination.age_group, Vaccination.region).order_by(func.sum(Vaccination.num_fully_vaccinated).desc()).limit(10).all()
-        print(vaccin)
+        for row in vaccin:
+            print(row._asdict())
         # [vac.format().get('region') for vac in vaccin]
         # abort for bad request if no vaccin info
         if vaccin is None:
             abort(400)
 
-        return jsonify({
-            'success': True,
-            'top 10 fully vaccinated [age_group, region, total_number_of_fully_vaccinated]': 0
-            })
+       # return jsonify({
+           # 'success': True,
+           # 'top 10 fully vaccinated [age_group, region, total_number_of_fully_vaccinated]': 0
+           # })
 
 
     @app.route('/vaccinations/<int:vacc_id>', methods=['GET'])
