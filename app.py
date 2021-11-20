@@ -211,12 +211,11 @@ def create_app(test_config=None):
             })
 
 
-    @app.route('/vaccinations/<int:vacc_id>', methods=['POST'])
+    @app.route('/vaccinations', methods=['POST'])
     #@requires_auth('post:vaccin')
-    def create_vaccin(vacc_id):
+    def create_vaccin():
         body = request.get_json()
-        #print(body)
-        vacc_id = body.get('vaccination_info_id', None)
+        id = body.get('vaccination_info_id', None)
         region = body.get('region', None)
         kommun_namn = body.get('kommun_namn', None)
         age_group = body.get('age_group', None)
@@ -234,18 +233,18 @@ def create_app(test_config=None):
                 })
 
         #try:
-        vaccin = Vaccination(id=vacc_id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
+        vaccin = Vaccination(id=id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
                              num_minst_1_dos=num_minst_1_dos, num_fully_vaccinated=num_fully_vaccinated,
                              proportion_of_minst_1_dos=proportion_of_minst_1_dos,
                              proportion_of_fully_vaccinated=proportion_of_fully_vaccinated)
         vaccin.insert()
-        print(vaccin)
+        #print(vaccin)
         vacc_format = Vaccination.query.get(vaccin.id).format()
         #print(vacc_format)
         return jsonify({
                 'success': True,
                 'age_group': vaccin.age_group,
-                'new_vaccination': 1
+                'new_vaccination': vacc_format
                })
 
         #except Exception:
@@ -308,9 +307,8 @@ def create_app(test_config=None):
     @app.route('/vaccinations/<int:vacc_id>', methods=['DELETE'])
    # @requires_auth('delete:vaccin')
     def delete_vaccin(vacc_id):
-        #https://www.py4u.net/discuss/149022
-        vaccin = db.session.query(Vaccination).filter(Vaccination.id == vacc_id)
-        #vaccin = Vaccination.query.filter(Vaccination.id == vacc_id).one_or_none()
+        # delete vaccionation info by info id
+        vaccin = Vaccination.query.filter(Vaccination.id == vacc_id).one_or_none()
         if not vaccin:
             return jsonify({
                 'success': False,
@@ -318,16 +316,11 @@ def create_app(test_config=None):
                 'message': 'Vaccination Id is not correct.'
                 })
         #print(vaccin)
-        try:
-            vaccin.delete(synchronize_session=False)
-            return jsonify({
+        vaccin.delete()
+        return jsonify({
                 'success': True,
                 'deleted': vacc_id
                 })
-
-        except Exception:
-            abort(422)
-
 
     '''
     @TODO: 
