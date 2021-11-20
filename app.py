@@ -232,77 +232,23 @@ def create_app(test_config=None):
                 'message': 'Information is missing.'
                 })
 
-        #try:
-        vaccin = Vaccination(id=id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
+        try:
+            vaccin = Vaccination(id=id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
                              num_minst_1_dos=num_minst_1_dos, num_fully_vaccinated=num_fully_vaccinated,
                              proportion_of_minst_1_dos=proportion_of_minst_1_dos,
                              proportion_of_fully_vaccinated=proportion_of_fully_vaccinated)
-        vaccin.insert()
+            vaccin.insert()
         #print(vaccin)
-        vacc_format = Vaccination.query.get(vaccin.id).format()
+            vacc_format = Vaccination.query.get(vaccin.id).format()
         #print(vacc_format)
-        return jsonify({
+            return jsonify({
                 'success': True,
                 'age_group': vaccin.age_group,
                 'new_vaccination': vacc_format
                })
 
-        #except Exception:
-            #abort(422)
-    
-    @app.route('/vaccinations/<int:vacc_id>', methods=['PATCH'])
-    #@requires_auth('patch:cases')
-    def update_vaccin(vacc_id):
-        body = request.get_json()
-        id = body.get('vaccination_info_id', None)
-        region = body.get('region', None)
-        kommun_namn = body.get('kommun_namn', None)
-        age_group = body.get('age_group', None)
-        population = body.get('population', None)
-        num_minst_1_dos = body.get('num_minst_1_dos', None)
-        num_fully_vaccinated = body.get('num_fully_vaccinated', None)
-        proportion_of_minst_1_dos = body.get('proportion_of_minst_1_dos', None)
-        proportion_of_fully_vaccinated = body.get('proportion_of_fully_vaccinated', None)
-
-        vaccin = Vaccination.query.filter(Vaccination.id == vacc_id).one_or_none()
-        if not vaccin:
-            return jsonify({
-                'success': False,
-                'error': 400,
-                'message': 'Please provide correct vaccination info id!'
-            })
-
-        try:
-            if id:
-                vaccin.id = id
-            if region:
-                vaccin.total_num_case = total_num_case
-            if kommun_namn:
-                vaccin.kommun_namn = kommun_namn
-            if age_group:
-                vaccin.age_group = age_group
-            if population:
-                vaccin.population = population
-            if num_minst_1_dos:
-                vaccin.num_minst_1_dos = num_minst_1_dos
-            if num_fully_vaccinated:
-                vaccin.num_fully_vaccinated = num_fully_vaccinated
-            if proportion_of_minst_1_dos:
-                vaccin.proportion_of_minst_1_dos = proportion_of_minst_1_dos
-            if proportion_of_minst_1_dos:
-                vaccin.proportion_of_fully_vaccinated = proportion_of_fully_vaccinated 
-
-            vaccin.update()
-            
-            return jsonify({
-            'success': True,
-            'modified_vaccination_info': vaccin.format()
-        })
-
         except Exception:
             abort(422)
-
-
 
     @app.route('/vaccinations/<int:vacc_id>', methods=['DELETE'])
    # @requires_auth('delete:vaccin')
