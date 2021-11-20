@@ -211,12 +211,12 @@ def create_app(test_config=None):
             })
 
 
-    @app.route('/vaccinations', methods=['POST'])
+    @app.route('/vaccinations/<int:vacc_id>', methods=['POST'])
     #@requires_auth('post:vaccin')
-    def create_vaccin():
+    def create_vaccin(vacc_id):
         body = request.get_json()
         #print(body)
-        id = body.get('vaccination_info_id', None)
+        vacc_id = body.get('vaccination_info_id', None)
         region = body.get('region', None)
         kommun_namn = body.get('kommun_namn', None)
         age_group = body.get('age_group', None)
@@ -234,7 +234,7 @@ def create_app(test_config=None):
                 })
 
         try:
-            vaccin = Vaccination(id=id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
+            vaccin = Vaccination(id=vacc_id, region=region, kommun_namn=kommun_namn, age_group=age_group, population=population,
                              num_minst_1_dos=num_minst_1_dos, num_fully_vaccinated=num_fully_vaccinated,
                              proportion_of_minst_1_dos=proportion_of_minst_1_dos,
                              proportion_of_fully_vaccinated=proportion_of_fully_vaccinated)
