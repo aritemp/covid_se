@@ -43,8 +43,8 @@ def create_app(test_config=None):
         return render_template('index.html') #"Here is some information about Covid situation in Sweden."
 
     @app.route('/cases', methods=['GET'])
-    #@requires_auth('get:cases')
-    def fetch_cases(): #
+    @requires_auth('get:cases')
+    def fetch_cases(token): #
         # get all cases
         cases = Cases.query.order_by(Cases.age_group).all()
         # categories_dict = {}
@@ -64,8 +64,8 @@ def create_app(test_config=None):
 
 
     @app.route('/cases/<string:agegroup>', methods=['GET'])
-    #@requires_auth('get:case_agegroup')
-    def fetch_cases_agegroup(agegroup):
+    @requires_auth('get:case_agegroup')
+    def fetch_cases_agegroup(token, agegroup):
 
         # get all cases
         cases = Cases.query.filter(Cases.age_group == agegroup).one_or_none()
@@ -179,8 +179,8 @@ def create_app(test_config=None):
 
     # Vaccination
     @app.route('/vaccinations', methods=['GET'])
-    #@requires_auth('get:vaccin')
-    def fetch_top10_vaccinations(): 
+    @requires_auth('get:vaccin')
+    def fetch_top10_vaccinations(token): 
         # get top 10 fully vaccinated age group & region
         vaccin = db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated).label('total_number_of_fully_vaccinated')).group_by(Vaccination.age_group, Vaccination.region).order_by(func.sum(Vaccination.num_fully_vaccinated).desc()).limit(10).all()
 
@@ -196,8 +196,8 @@ def create_app(test_config=None):
 
 
     @app.route('/vaccinations/<int:vacc_id>', methods=['GET'])
-    #@requires_auth('get:vaccin')
-    def fetch_vaccinations_by_id(vacc_id): # token,
+    @requires_auth('get:vaccin')
+    def fetch_vaccinations_by_id(token, vacc_id): # token,
         # get the vacc by id
         vaccin = Vaccination.query.filter(Vaccination.id==vacc_id).one_or_none()
 
@@ -212,8 +212,8 @@ def create_app(test_config=None):
 
 
     @app.route('/vaccinations', methods=['POST'])
-    #@requires_auth('post:vaccin')
-    def create_vaccin():
+    @requires_auth('post:vaccin')
+    def create_vaccin(token):
         body = request.get_json()
         id = body.get('vaccination_info_id', None)
         region = body.get('region', None)
@@ -251,8 +251,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/vaccinations/<int:vacc_id>', methods=['DELETE'])
-   # @requires_auth('delete:vaccin')
-    def delete_vaccin(vacc_id):
+    @requires_auth('delete:vaccin')
+    def delete_vaccin(token, vacc_id):
         # delete vaccionation info by info id
         vaccin = Vaccination.query.filter(Vaccination.id == vacc_id).one_or_none()
         if not vaccin:
