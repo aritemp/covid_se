@@ -181,6 +181,8 @@ def create_app(test_config=None):
     @app.route('/vaccinations', methods=['GET'])
     #@requires_auth('get:vaccin')
     def fetch_top10_vaccinations(): #
+        print(db)
+        print(db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated)).group_by(Vaccination.age_group, Vaccination.region))
         # get top 10 fully vaccinated age group & region
         vaccin = db.session.query(Vaccination.age_group, Vaccination.region, func.sum(Vaccination.num_fully_vaccinated).label('total')).group_by(Vaccination.age_group, Vaccination.region).order_by(func.sum(Vaccination.num_fully_vaccinated).desc()).limit(10).all()
         #print(vaccin)
