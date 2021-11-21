@@ -2,8 +2,8 @@
 {% block title %}Vaccination{% endblock %}
 {% block content %}
 {% if vaccins %}
-    <div class="vaccin">             
-        <p><a href="/vaccinations">Here are the top 10 fully vaccinated groups.</a>
+    <div class="vaccin">   
+        <p><a href="/vaccinations">Here are the top 10 fully vaccinated groups: String({{ vaccins }}) </a>
         </p>
     </div>
 {% endif %}
