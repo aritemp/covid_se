@@ -141,10 +141,10 @@ def create_app(test_config=None):
             abort(404)
 
         # return data to view
-        return jsonify({
-            'success': True,
-            'cases_info': cases_info
-        }), render_template("cases.html", cases=cases, permissions=permissions)
+        #return jsonify({
+           # 'success': True,
+            #'cases_info': cases_info}), 
+        return render_template("cases.html", cases=cases, permissions=permissions)
 
 
     @app.route('/cases/<string:agegroup>', methods=['GET'])
@@ -162,10 +162,10 @@ def create_app(test_config=None):
                 'message': 'Please provide correct age group!'
             })
 
-        return jsonify({
-            'success': True,
-            'cases_info': case.format()
-        }), render_template("cases.html", case=case, permissions=permissions)
+        #return jsonify({
+           # 'success': True,
+            #'cases_info': case.format()}), 
+        return render_template("cases.html", case=case, permissions=permissions)
 
 
     @app.route('/cases', methods=['POST'])
@@ -200,11 +200,11 @@ def create_app(test_config=None):
 
             new_case = Cases.query.get(case.age_group).format()
 
-            return jsonify({
-                'success': True,
-                'case_age_group': case.age_group,
-                'new case': new_case
-            }), render_template("cases.html", permissions=permissions, new_case=new_case)
+            #return jsonify({
+               # 'success': True,
+               # 'case_age_group': case.age_group,
+               # 'new case': new_case}), 
+            return render_template("cases.html", permissions=permissions, new_case=new_case)
 
         except Exception:
             abort(422)
@@ -244,10 +244,10 @@ def create_app(test_config=None):
 
             case.update()
             
-            return jsonify({
-            'success': True,
-            'case': case.format()
-        }), render_template("cases.html", permissions=permissions, update_case=case)
+             #jsonify({
+            #'success': True,
+            #'case': case.format()#}), 
+            return render_template("cases.html", permissions=permissions, update_case=case)
 
         # redirect(url_for("case_age_group", payload=payload, age_group = age_group))
 
@@ -270,10 +270,10 @@ def create_app(test_config=None):
             permissions = payload["permissions"]
             case.delete()
 
-            return jsonify({
-            'success': True,
-            'deleted_age_group': agegroup
-                }), render_template("cases.html", delete_case=agegroup, permissions=permissions)
+            #return jsonify({
+            #'success': True,
+            #'deleted_age_group': agegroup}), 
+            return render_template("cases.html", delete_case=agegroup, permissions=permissions)
 
         except:
             # abort if problem of deleting cases
@@ -297,10 +297,10 @@ def create_app(test_config=None):
 
         vaccins = {i+1:row._asdict() for i, row in enumerate(vaccins)}
 
-        return jsonify({
-            'success': True,
-            'top 10 fully vaccinated groups': vaccins
-            }), render_template("vaccinations.html", vaccins=vaccins, permissions=permissions)
+        #return jsonify({
+           # 'success': True,
+           # 'top 10 fully vaccinated groups': vaccins}), 
+        return render_template("vaccinations.html", vaccins=vaccins, permissions=permissions)
 
 
     @app.route('/vaccinations/<int:vacc_id>', methods=['GET'])
@@ -316,10 +316,10 @@ def create_app(test_config=None):
         if vaccin is None:
             abort(400)
 
-        return jsonify({
-            'success': True,
-            'vaccination': vaccin.format()
-            }), render_template("vaccinations.html", vaccin=vaccin, permissions=permissions)
+        #return jsonify({
+          #  'success': True,
+          #  'vaccination': vaccin.format()}), 
+        return render_template("vaccinations.html", vaccin=vaccin, permissions=permissions)
 
 
     @app.route('/vaccinations', methods=['POST'])
@@ -358,12 +358,12 @@ def create_app(test_config=None):
             #print(vaccin)
             vacc_format = Vaccination.query.get(vaccin.id).format()
         #print(vacc_format)
-            return jsonify({
-                'success': True,
-                'age_group': vaccin.age_group,
-                'new_vaccination': vacc_format
-               }), redirect(url_for("vaccinations")), render_template("vaccinations.html",
-                                                                      permissions=permissions, new_vaccin=vaccin)
+            #return jsonify({
+              #  'success': True,
+              #  'age_group': vaccin.age_group,
+               # 'new_vaccination': vacc_format }), redirect(url_for("vaccinations")), 
+        
+            return render_template("vaccinations.html", permissions=permissions, new_vaccin=vaccin)
 
         except Exception:
             abort(422)
@@ -384,10 +384,10 @@ def create_app(test_config=None):
 
         permissions = payload["permissions"]
         vaccin.delete()
-        return jsonify({
-                'success': True,
-                'deleted': vacc_id
-                }), render_template("vaccinations.html", permissions=permissions, delete_vaccin=vacc_id)
+        #return jsonify({
+              #  'success': True,
+               # 'deleted': vacc_id}),
+        return render_template("vaccinations.html", permissions=permissions, delete_vaccin=vacc_id)
 
         #except Exception:
             #abort(422)
