@@ -27,7 +27,7 @@ AUTH0_DOMAIN = 'fwddev.eu.auth0.com' #os.environ.get('AUTH0_DOMAIN')
 CLIENT_ID = '9P90EvszrUfHRmp2AKTOiQsYUIbykQIn'  #os.environ['CLIENT_ID']
 JWT_SECRET_KEY = 'U1wxAOAfTEyU1D-N-gyMgbs4cVXiUAeRBbAGfcG61a4glJaKSBuBvERBFcp4CFsT'  #os.environ.get('JWT_SECRET_KEY')
 API_AUDIENCE = 'se_covid2021' #os.environ.get('API_AUDIENCE')
-AUTH0_CALLBACK_URL = 'https://covid-se2021.herokuapp.com/' #os.environ.get('AUTH0_CALLBACK_URL')
+AUTH0_CALLBACK_URL = 'https://covid-se2021.herokuapp.com' #os.environ.get('AUTH0_CALLBACK_URL')
 AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
 
 # reference:  Exercise 4 - TDD for APIs
