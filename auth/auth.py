@@ -25,34 +25,31 @@ class AuthError(Exception):
 ## Auth Header
 
 def get_token_auth_header():
-    try:
-        auth_header = request.headers.get('Authorization', None)
+    # https://auth0.com/docs/quickstart/backend/python/01-authorization#configure-auth0-apis
 
-        if not auth_header:
-            raise AuthError({
+    auth_header = request.headers.get('Authorization', None)
+
+    if not auth_header:
+        raise AuthError({
            'code': 'authorization_header_missing',
            'description': 'Authorization header is missing.',
        }, 401)
 
-        header_parts = auth_header.split()
+    header_parts = auth_header.split()
 
-        if header_parts[0] == 'Bearer' and len(header_parts)==2:
-            return header_parts[1]
+    if header_parts[0].lower() != 'bearer':
+        raise AuthError({
+                "code": "invalid_header",
+                "description": 'Authorization header must start with Bearer.'
+            }, 401)
 
-        else:
-            if header_parts[0] != 'Bearer':
-                raise AuthError({
-               "code": "invalid_header",
-               "description": 'Authorization header must start with Bearer.'
-                }, 401)
-
-            elif len(header_parts) != 2:
-                raise AuthError({
+    elif len(header_parts) != 2:
+        raise AuthError({
                 "code": "invalid_header",
                 "description": 'Authorization header is malformed.'
-                    }, 400)
-    except:
-        abort(422)
+            }, 400)
+
+    return header_parts[1]
 
 
 def check_permissions(permission, payload):
