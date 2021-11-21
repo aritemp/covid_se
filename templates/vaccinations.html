@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% block title %}Vaccination{% endblock %}
+{% block content %}
+{% if vaccins %}
+    <div class="vaccin">             
+        <p><a href="/vaccinations">Here are the top 10 fully vaccinated groups.</a>
+        </p>
+    </div>
+{% endif %}
+{% if vaccin %}
+    <div class="vaccin">       
+     <p>The following vaccination info is found:</p>
+        <li><a href="/vaccinations/{{ vaccin.id }}"></a>
+            {{ vaccin.id }}, {{ vaccin.region }}, {{ vaccin.kommun_namn}}, 
+            {{ vaccin.age_group }}, {{ vaccin.population }}, {{ vaccin.num_minst_1_dos }}, 
+            {{ vaccin.num_fully_vaccinated }}, {{ vaccin.proportion_of_minst_1_dos }}, 
+            {{ vaccin.proportion_of_fully_vaccinated }}
+        </li> 
+    </div>
+{% endif %}
+{% if new_vaccin %}
+    <div class="add">
+        <p>The following new vaccination info is added:</p>
+        <li><a href="/vaccinations/{{ new_vaccin.id }}"></a>
+            {{ new_vaccin.id }}, {{ new_vaccin.region }}, {{ new_vaccin.kommun_namn}}, 
+            {{ new_vaccin.age_group }}, {{ new_vaccin.population }}, {{ new_vaccin.num_minst_1_dos }}, 
+            {{ new_vaccin.num_fully_vaccinated }}, {{ new_vaccin.proportion_of_minst_1_dos }}, 
+            {{ new_vaccin.proportion_of_fully_vaccinated }}
+        </li> 
+    </div>
+{% endif %}
+{% if delete_vaccin %}
+    {% if "delete:vaccin" in permissions %}
+    <div class="delete">
+    <p>This vaccination info {{ delete_vaccin }} has been deleted.</p>
+    </div>
+    {% endif %}
+{% endif %}
+
+{% endblock content %}
