@@ -6,8 +6,37 @@
 </head>
 
 <body>
+    {% if login==True %}
+    <div>
     <h1>COVID SE 2021</h1>
-    Here is some information about Covid situation in Sweden. You can <a href="https://fwddev.eu.auth0.com/authorize?audience=se_covid2021&response_type=token&client_id=9P90EvszrUfHRmp2AKTOiQsYUIbykQIn&redirect_uri=https://covid-se2021.herokuapp.com/cases">login here</a> to check the content. 
+    <h3>Here is some information about Covid situation in Sweden.
+        Please <a href="/login">login here</a> to check the content.
+    </h3> 
+    </div>
+    {% endif %}
+    {% if permissions %}
+    <div class="permissions">
+        <div><a href="/cases">
+            <button type="button"><h4>Cases Info</h4>
+            </button></a></div>
+        <div><a href="/cases/10-19">
+                <button type="button"><h4>One example of case info by age group</h4>
+                </button></a></div>
+        <div><a href="/vaccinations">
+            <button type="button"><h4>Top 10 fully vaccinated groups across age & region</h4>
+            </button></a></div>
+        <div><a href="/vaccinations/11">
+                <button type="button"><h4>One example of vaccination info by id</h4>
+                </button></a></div>
+            {% if "post:cases" and "post:vaccin" in permissions %}
+        <div><strong>Note:</strong> You can use `curl` to add/update/delete case and vaccination info.</div>
+            {% endif %}
+        <div><a href="/logout">Logout</a></div>
+        <div><a href="{{ url_for('index')}}">Home</a></div>
+    </div>
+    
+    {% endif %}
+    {% block content %}{% endblock %}
 
 </body>
 </html>
