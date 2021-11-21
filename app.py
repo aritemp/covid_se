@@ -224,7 +224,7 @@ def create_app(test_config=None):
         total_num_death = body.get('total_num_death', None)
 
         case = Cases.query.filter(Cases.age_group == agegroup).one_or_none()
-        if not cases:
+        if not case:
             return jsonify({
                 'success': False,
                 'error': 400,
