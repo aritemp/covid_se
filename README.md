@@ -5,14 +5,13 @@
 
 ## Introduction
 
-This app intends to show Covid19 information in Sweden, including cases information across different age groups and 
-vaccination information across different age groups and regions.
+This app intends to show Covid19 information in Sweden, including:
+   - Cases information across different age groups,
+   - Vaccination information across different age groups and regions.
 
 ## Getting Started
 
 ### Installing Dependencies
-
-#### Backend
 
 `pip install -r requirements.txt`
 
