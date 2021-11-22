@@ -14,7 +14,7 @@
 {% endif %}
 {% if case %}
     <div class="cases">       
-     <p>The following case is found:</p>
+     <p>The following case was found:</p>
         <li>age_group, total_num_case, total_num_intensivecare, total_num_death </li>
         <li><a href="/cases/{{ case.age_group }}"></a>{{ case.age_group }}, {{ case.total_num_case }}, {{ case.total_num_intensivecare }}, {{ case.total_num_death }}</li> 
     </div>
@@ -23,7 +23,7 @@
 {% if new_case %}
     {% if "post:cases" in permissions %}
     <div class="add">
-        <p>The following new case is added:</p>
+        <p>The following new case was added:</p>
         <li>age_group, total_num_case, total_num_intensivecare, total_num_death </li>
         <li><a href="/cases/{{ new_case.age_group }}"></a>{{ new_case.age_group }}, {{ new_case.total_num_case }}, {{ new_case.total_num_intensivecare }}, {{ new_case.total_num_death }}</li> 
     </div>
@@ -33,7 +33,7 @@
 {% if update_case %}
     {% if "patch:cases" in permissions %}
     <div class="modify">
-        <p>The following case has been modified:</p>
+        <p>The following case was modified:</p>
         <li>age_group, total_num_case, total_num_intensivecare, total_num_death </li>
         <li><a href="/cases/{{ update_case.age_group }}"></a>{{ update_case.age_group }}, {{ update_case.total_num_case }}, {{ update_case.total_num_intensivecare }}, {{ update_case.total_num_death }}</li> 
     </div>
@@ -43,7 +43,7 @@
 {% if delete_case %}
     {% if "delete:cases" in permissions %}
 <div class="delete">
-    <p>The case info for age group {{ delete_case }} has been deleted.</p>
+    <p>The case info for age group {{ delete_case }} was deleted.</p>
     </div>
     {% endif %}
 {% endif %}
