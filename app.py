@@ -143,10 +143,10 @@ def create_app(test_config=None):
             abort(404)
 
         # return data to view
-        else:
-            return jsonify({
-                'success': True,
-                'cases_info': cases_info})
+        #else:
+            #return jsonify({
+               # 'success': True,
+                #'cases_info': cases_info})
         return render_template("cases.html", cases=cases, permissions=permissions)
 
     
