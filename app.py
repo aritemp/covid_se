@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, jsonify, render_template, redirect, session, url_for, flash
+from flask import Flask, request, abort, jsonify, render_template, redirect, session, url_for
 from sqlalchemy.sql import func
 from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import urlencode
@@ -78,7 +78,7 @@ def create_app(test_config=None):
     @app.route("/", methods=['GET'])
     def index():
         if session.get("token"):
-            flash('This is your JWT token:' + session.get("token"))
+            print('This is your JWT token:', session.get("token"))
             return redirect("/callback")
         else:
             #print(session)
@@ -107,6 +107,8 @@ def create_app(test_config=None):
 
 
         if permissions == [ "get:case_agegroup", "get:cases", "get:vaccin"]:
+            print('User
+                  logged in.')
             return render_template('index.html', permissions=permissions, token=True)
 
         elif permissions == ["delete:cases", "delete:vaccin", "get:case_agegroup", "get:cases",
