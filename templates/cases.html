@@ -4,8 +4,9 @@
 {% if cases %}
     <div class="cases"> 
         <ol>    
-            {% for case in cases %} 
-                <li><a href="/cases/{{ case.age_group }}"></a>{{ case.age_group }}, {{ case.total_num_case }}, {{ case.total_num_death }}, {{ case.total_num_intensivecare }}</li>
+            {% for case in cases %}
+                <p>age_group, total_num_case, total_num_intensivecare, total_num_death </p>
+                <li><a href="/cases/{{ case.age_group }}"></a>{{ case.age_group }}, {{ case.total_num_case }}, {{ case.total_num_intensivecare }}, {{ case.total_num_death }}</li>
                 {% endfor %}
         </ol>  
     </div>
