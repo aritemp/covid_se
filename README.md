@@ -50,21 +50,21 @@ There are two roles available:
         - Can only view all the cases and vaccination info.
     - No one can modify the vaccination info.
 
-    |   Roles   |   Permissions |
+    |   Roles   |  Permissions  |
     |   :---    |     :---      |
     |   Admin   | `get:cases` `get:case_agegroup` `patch:cases`  `post:cases` `delete:cases` `get:vaccin` `post:vaccin` `delete:vaccin`|
     |   User    | `get:cases` `get:case_agegroup` `get:vaccin`|
      --------------------------------------------------------------------------------------
     |    Permissions     |          Description          |
     |        :---        |             :---              |
-    |  `get:cases`       |     Read the cases in general |
-    | `get:case_agegroup`| Read the details of the case info by the age group | 
-    |  `post:cases`      |       Add new case info       |  
-    |  `patch:cases`     |         Modify the case by the age group       |  
-    |  `delete:cases`    |    Delete the case info by the age group       | 
-    |  `get:vaccin`      | Read the top 10 fully vaccinated groups info and the specific vaccination info by id |  
-    |  `post:vaccin`     |   Add new vaccination info    |  
-    |  `delete:vaccin`   | Delete vaccination info by id |     
+    | `get:cases`        |   Read the cases in general   |
+    | `get:case_agegroup`|   Read the details of the case info by the age group | 
+    | `post:cases`       |   Add new case info           |  
+    | `patch:cases`      |   Modify the case by the age group       |  
+    | `delete:cases`     |   Delete the case info by the age group  | 
+    | `get:vaccin`       |   Read the top 10 fully vaccinated groups info and the specific vaccination info by id |  
+    | `post:vaccin`      |   Add new vaccination info      |  
+    | `delete:vaccin`    |   Delete vaccination info by id |     
     
 
 ## Getting Started
