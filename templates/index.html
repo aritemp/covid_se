@@ -29,7 +29,10 @@
                 <button type="button"><h4>One example of vaccination info by id</h4>
                 </button></a></div>
          {% if "post:cases" and "post:vaccin" in permissions %}
+        <p>Welcome, Admin!</p>
         <div><strong>Note:</strong> As an admin, you can use `curl [URL] ... -H 'Authorization: Bearer [Your JWT token]'` to add/update/delete case and vaccination info.</div>
+        {% else %}
+        <p>Welcome, User!</p>
         {% endif %}
         <div><a href="/logout">Logout</a></div>
         <div><a href="{{ url_for('index')}}">Home</a></div>
