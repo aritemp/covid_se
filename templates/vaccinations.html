@@ -9,7 +9,7 @@
 {% endif %}
 {% if vaccin %}
     <div class="vaccin">       
-     <p>The following vaccination info is found:</p>
+     <p>The following vaccination info was found:</p>
         <li>id, region, kommun_namn, age_group, population, num_minst_1_dos, num_fully_vaccinated,
             proportion_of_minst_1_dos, proportion_of_fully_vaccinated 
         </li>
@@ -23,7 +23,7 @@
 {% endif %}
 {% if new_vaccin %}
     <div class="add">
-        <p>The following new vaccination info is added:</p>
+        <p>The following new vaccination info was added:</p>
         <li>id, region, kommun_namn, age_group, population, num_minst_1_dos, num_fully_vaccinated,
             proportion_of_minst_1_dos, proportion_of_fully_vaccinated 
         </li>
@@ -38,7 +38,7 @@
 {% if delete_vaccin %}
     {% if "delete:vaccin" in permissions %}
     <div class="delete">
-    <p>This vaccination info {{ delete_vaccin }} has been deleted.</p>
+    <p>This vaccination info {{ delete_vaccin }} was deleted.</p>
     </div>
     {% endif %}
 {% endif %}
