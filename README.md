@@ -43,6 +43,7 @@ This API can help to:
  - Create/Modify/Delete cases/vaccination info based on the roles.
  
 There are two roles available:
+    
     - Admin
         - Can perform all the available activities, like viewing, modifying, creating, deleting cases and vaccination info.
     - User
