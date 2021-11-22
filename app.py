@@ -146,7 +146,9 @@ def create_app(test_config=None):
         #return jsonify({
            # 'success': True,
             #'cases_info': cases_info}), 
-        return render_template("cases.html", cases=cases, permissions=permissions)
+        return render_template("cases.html", cases=cases, permissions=permissions), jsonify({
+           'success': True,
+           'cases_info': cases_info})
 
 
     @app.route('/cases/<string:agegroup>', methods=['GET'])
