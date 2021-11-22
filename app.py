@@ -78,6 +78,7 @@ def create_app(test_config=None):
     @app.route("/", methods=['GET'])
     def index():
         if session.get("token"):
+            print(session.get("token"))
             return redirect("/callback")
         else:
             #print(session)
