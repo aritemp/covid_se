@@ -107,8 +107,7 @@ def create_app(test_config=None):
 
 
         if permissions == [ "get:case_agegroup", "get:cases", "get:vaccin"]:
-            print('User
-                  logged in.')
+            print('User logged in.')
             return render_template('index.html', permissions=permissions, token=True)
 
         elif permissions == ["delete:cases", "delete:vaccin", "get:case_agegroup", "get:cases",
