@@ -10,9 +10,9 @@
 {% if vaccin %}
     <div class="vaccin">       
      <p>The following vaccination info is found:</p>
-        <p>id, region, kommun_namn, age_group, population, num_minst_1_dos, num_fully_vaccinated,
+        <li>id, region, kommun_namn, age_group, population, num_minst_1_dos, num_fully_vaccinated,
             proportion_of_minst_1_dos, proportion_of_fully_vaccinated 
-        </p>
+        </li>
         <li><a href="/vaccinations/{{ vaccin.id }}"></a>
             {{ vaccin.id }}, {{ vaccin.region }}, {{ vaccin.kommun_namn}}, 
             {{ vaccin.age_group }}, {{ vaccin.population }}, {{ vaccin.num_minst_1_dos }}, 
@@ -24,9 +24,9 @@
 {% if new_vaccin %}
     <div class="add">
         <p>The following new vaccination info is added:</p>
-        <p>id, region, kommun_namn, age_group, population, num_minst_1_dos, num_fully_vaccinated,
+        <li>id, region, kommun_namn, age_group, population, num_minst_1_dos, num_fully_vaccinated,
             proportion_of_minst_1_dos, proportion_of_fully_vaccinated 
-        </p>
+        </li>
         <li><a href="/vaccinations/{{ new_vaccin.id }}"></a>
             {{ new_vaccin.id }}, {{ new_vaccin.region }}, {{ new_vaccin.kommun_namn}}, 
             {{ new_vaccin.age_group }}, {{ new_vaccin.population }}, {{ new_vaccin.num_minst_1_dos }}, 
