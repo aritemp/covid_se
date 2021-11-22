@@ -143,14 +143,13 @@ def create_app(test_config=None):
             abort(404)
 
         # return data to view
-        #return jsonify({
-           # 'success': True,
-            #'cases_info': cases_info}), 
-        return render_template("cases.html", cases=cases, permissions=permissions), jsonify({
-           'success': True,
-           'cases_info': cases_info})
+        else:
+            return jsonify({
+                'success': True,
+                'cases_info': cases_info})
+        return render_template("cases.html", cases=cases, permissions=permissions)
 
-
+    
     @app.route('/cases/<string:agegroup>', methods=['GET'])
     @cross_origin()
     @requires_auth('get:case_agegroup')
