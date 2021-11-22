@@ -43,21 +43,18 @@ class CovidSETestCase(unittest.TestCase):
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
-
+    # Cases
     def test_get_all_cases(self):
-        res = self.client().get('/cases', headers={"Authorization": "Bearer {}".format(
-                    self.user)})
+        res = self.client().get('/cases', headers={"Authorization": "Bearer {}".format(self.user)})
         data = json.loads(res.data)
-
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertTrue(data['cases_info'])
+        self.assertIsNotNone(data['cases_info'])
 
     def test_404_no_valid_cases(self):
 
         # get the request with invalid page
-        res = self.client().get('/cases/',
-            headers={"Authorization": "Bearer {}".format(self.user)})
+        res = self.client().get('/cases/', headers={"Authorization": "Bearer {}".format(self.user)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 404)
@@ -72,8 +69,7 @@ class CovidSETestCase(unittest.TestCase):
             "total_num_intensivecare": 200
         }
 
-        res = self.client().post('/cases', json=new_cases, headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().post('/cases', json=new_cases, headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         # check if the case has been created or not
         case = Cases.query.filter_by(age_group=new_cases['age_group']).one_or_none()
@@ -85,8 +81,7 @@ class CovidSETestCase(unittest.TestCase):
     def test_400_create_cases(self):
 
         # get the request with invalid page
-        res = self.client().get('/cases', json={},
-            headers={"Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().get('/cases', json={}, headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 400)
@@ -95,16 +90,11 @@ class CovidSETestCase(unittest.TestCase):
 
     def test_update_case(self):
         # update a case group
-        response = self.client().patch(
-            '/cases/10-29',
-            json={
-                "age_group": "18-29",
+        response = self.client().patch('/cases/10-29',
+            json={ "age_group": "18-29",
                 "total_num_case": 25000,
                 "total_num_death": 12,
-                "total_num_intensivecare": 200
-            },
-            headers={
-                "Authorization": "Bearer {}".format(self.admin)})
+                "total_num_intensivecare": 200}, headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(response.data)
         #print(data)
         self.assertEqual(response.status_code, 200)
@@ -129,8 +119,7 @@ class CovidSETestCase(unittest.TestCase):
         self.assertTrue(data['message'], 'Please provide correct age group!')
 
     def test_delete_case(self):
-        res = self.client().delete('/cases/18-29', headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().delete('/cases/18-29', headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 200)
@@ -138,8 +127,7 @@ class CovidSETestCase(unittest.TestCase):
         self.assertEqual(data['deleted'], 10)
 
     def test_404_delete_case(self):
-        res = self.client().delete('/cases/', headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().delete('/cases/', headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 404)
@@ -147,7 +135,6 @@ class CovidSETestCase(unittest.TestCase):
         self.assertEqual(data['message'], "Resource not found!")
 
      # Vaccination
-
     def test_create_vaccin(self):
         new_cases = {"age_group": "80-89",
                      "kommun_namn": "TEST_Vallentuna",
@@ -159,8 +146,7 @@ class CovidSETestCase(unittest.TestCase):
                      "region": "Stockholm",
                      "vaccination_info_id": 10}
 
-        res = self.client().post('/vaccinations', json=new_cases, headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().post('/vaccinations', json=new_cases, headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         # check if the vaccin info has been created or not
@@ -172,8 +158,7 @@ class CovidSETestCase(unittest.TestCase):
 
     def test_404_vaccin_creation_failure(self):
         # create a new vaccin
-        res = self.client().post('/vaccinations/', headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().post('/vaccinations/', headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 404)
@@ -181,16 +166,14 @@ class CovidSETestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Resource not found!')
 
     def test_fetch_top10_vaccin(self):
-        res = self.client().get('/vaccinations', headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().get('/vaccinations', headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
     def test_404_fetch_top10_vaccin(self):
-        res = self.client().get('/vaccinations/', headers={
-            "Authorization": "Bearer {}".format(self.user)})
+        res = self.client().get('/vaccinations/', headers={"Authorization": "Bearer {}".format(self.user)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 404)
@@ -198,16 +181,14 @@ class CovidSETestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Resource not found!')
 
     def test_fetch_vaccin_by_id(self):
-        res = self.client().get('/vaccinations/11', headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().get('/vaccinations/11', headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
     def test_delete_vaccin(self):
-        res = self.client().delete('/vaccinations/10', headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().delete('/vaccinations/10', headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 200)
@@ -215,14 +196,42 @@ class CovidSETestCase(unittest.TestCase):
         self.assertEqual(data['deleted'], 10)
 
     def test_404_delete_vaccin(self):
-        res = self.client().delete('/vaccinations/', headers={
-            "Authorization": "Bearer {}".format(self.admin)})
+        res = self.client().delete('/vaccinations/', headers={"Authorization": "Bearer {}".format(self.admin)})
         data = json.loads(res.data)
         #print(data)
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Resource not found!")
+        
+     # Roles
+    def test_user(self):
+        res = self.client().get('/', headers={'Authorization': 'Bearer {}'.format(self.user)})
+        data = res.get_data(as_text=True)
+        if 'User' in data:
+            self.assertEqual(res.status_code, 200)
+            self.assertIn("Authorization", res.headers['Access-Control-Allow-Headers'])
 
+    def test_admin(self):
+        res = self.client().get('/', headers={'Authorization': 'Bearer {}'.format(self.admin)})
+        data = res.get_data(as_text=True)
+        if 'Admin' in data:
+            self.assertEqual(res.status_code, 200)
+            self.assertIn("Authorization",
+                res.headers['Access-Control-Allow-Headers'])
+
+    def test_vaccin_no_auth(self):
+        res = self.client().get('/vaccinations', json={})
+        data = res.get_data(as_text=True)
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('Authorization header is missing.', data)
+        self.assertIsNone(res.headers.get('Authorization'))
+
+    def test_cases_no_auth(self):
+        res = self.client().get('/cases', json={})
+        data = res.get_data(as_text=True)
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('Authorization header is missing.', data)
+        self.assertIsNone(res.headers.get('Authorization'))
 
 if __name__ == "__main__":
     unittest.main()
