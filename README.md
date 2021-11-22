@@ -1,12 +1,14 @@
 # Full Stack API Final Project
 
 
-## Full Stack COVID_SE
+## Full Stack COVID_SE 2021
+
+## Introduction
+
+This app intends to show Covid19 information in Sweden, including cases information across different age groups and 
+vaccination information across different age groups and regions.
 
 ## Getting Started
-
-[Fork](https://help.github.com/en/articles/fork-a-repo) the [project repository](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter) and [Clone](https://help.github.com/en/articles/cloning-a-repository) your forked repository to your machine. Work on the project locally and make sure to push all your changes to the remote repository before submitting the link to your repository in the Classroom.
->Once you're ready, you can submit your project on the last page.
 
 ### Installing Dependencies
 
@@ -14,26 +16,15 @@
 
 `pip install -r requirements.txt`
 
-#### Frontend
-open '\frontend' directory and run:
-
-`npm install`
-
 ### Running the server
 
-#### Backend
-open '\backend' directory and run:
+Open the directory and run:
 
   ```
   export FLASK_APP=app.py
   export FLASK_ENV=development
   flask run  --reload
   ```
-
-#### Frontend
-open '\frontend' directory and run:
-
-`npm start`
 
 ### Testing the app
 
@@ -42,7 +33,6 @@ dropdb covid
 createdb covid
 psql covid < covid.psql
 python test_app.py
-
 ```
 
 ## API Reference
@@ -50,18 +40,42 @@ python test_app.py
 ### Getting Started
 
 This API can help to:
- - Request all the categories and the questions;
- - Search questions based on a specific string;
- - Create/Delete questions;
- - Find a random question in any given context.
+ - Request all the available cases and vaccination info in Sweden;
+ - Create/Modify/Delete cases/vaccination info based on the roles.
+ 
+There are two roles available:
+    - Admin
+        - Can perform all the available activities, like viewing, modifying, creating, deleting cases and vaccination info.
+    - User
+        - Can only view all the cases and vaccination info.
+    - No one can modify the vaccination info.
+
+    |   Roles   |   Permissions |
+    |   :---    |     :---      |
+    |   Admin   | `get:cases` `get:case_agegroup` `patch:cases`  `post:cases` `delete:cases` `get:vaccin` `post:vaccin` `delete:vaccin`|
+    |   User    | `get:cases` `get:case_agegroup` `get:vaccin`|
+     --------------------------------------------------------------------------------------
+    |    Permissions     |          Description          |
+    |        :---        |             :---              |
+    |  `get:cases`       |     Read the cases in general |
+    | `get:case_agegroup`| Read the details of the case info by the age group | 
+    |  `post:cases`      |       Add new case info       |  
+    |  `patch:cases`     |         Modify the case by the age group       |  
+    |  `delete:cases`    |    Delete the case info by the age group       | 
+    |  `get:vaccin`      | Read the top 10 fully vaccinated groups info and the specific vaccination info by id |  
+    |  `post:vaccin`     |   Add new vaccination info    |  
+    |  `delete:vaccin`   | Delete vaccination info by id |     
+    
+
+## Getting Started
 
 Base URL:
- - Backend (local host): [http://127.0.0.1:5000](http://127.0.0.1:5000/)
- - Frontend: [http://localhost:3000](http://localhost:3000) 
+ - [https://covid-se2021.herokuapp.com](https://covid-se2021.herokuapp.com)
+ - [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ### Endpoints
 
-#### GET /cases OR GET /cases/<\string:agegroup\>
+##### GET /cases OR GET /cases/<\string:agegroup\>
 
 - Return a list of cases.
 - Sample: `curl http://127.0.0.1:5000/cases`<br>
@@ -145,7 +159,7 @@ Base URL:
     "success": true
     }
     
-#### GET /vaccinations
+##### GET /vaccinations
 
 - Return a list of top 10 number of fully vaccinated age group and region.
 * Sample: `curl http://127.0.0.1:5000/vaccinations`<br>
@@ -207,7 +221,7 @@ Base URL:
     }
      
 
-#### POST /cases
+##### POST /cases
 
 - Add a new case
     - Sample: `curl http://127.0.0.1:5000/cases -X POST -H "Content-Type: application/json" -d '{
@@ -229,7 +243,7 @@ Base URL:
         }
 
 
-#### PATCH /cases/<\string:agegroup\>
+##### PATCH /cases/<\string:agegroup\>
 
 - Modify a case by age group 
 - Sample: `curl http://127.0.0.1:5000/cases/18-29 -X PATCH -H "Content-Type: application/json" -d '{
@@ -250,7 +264,7 @@ Base URL:
         }     
 
 
-#### DELETE /cases
+##### DELETE /cases
 
 - Delete a case by age group 
 - Sample: `curl http://127.0.0.1:5000/cases/18-29 -X DELETE`<br>
@@ -260,7 +274,7 @@ Base URL:
           "success": true
         }                    
 
-#### GET /vaccinations/\<int:id\>
+##### GET /vaccinations/\<int:id\>
 
  - Get vaccination info by vaccination id
  - Sample: `curl http://127.0.0.1:5000/vaccinations/2`<br>
@@ -280,7 +294,7 @@ Base URL:
           }
         }
 
-### Error Handling
+#### Error Handling
 
 There are 4 types of errors included in this API (400, 404, 422, 500). Errors will be returned as JSON to view, 
 for instance, the error 404 will be presented as :<br>
@@ -291,22 +305,21 @@ for instance, the error 404 will be presented as :<br>
         "message": "resource not found"
     }
 
-### Note:
-1. Auth0 configuration: 
-    - URL: https://fwddev.eu.auth0.com/authorize?audience=http://localhost:5000&response_type=token&client_id=akqmzDqru4tisoJFJikJHobPcSAZTVwe&redirect_uri=http://localhost:8100/tabs/user-page
+### Auth0 configuration:
+ 
+    - URL: https://fwddev.eu.auth0.com/authorize?audience=se_covid2021&response_type=token&client_id=9P90EvszrUfHRmp2AKTOiQsYUIbykQIn&redirect_uri=https://covid-se2021.herokuapp.com/callback
     - Users: 
     
         ```
         - admin: admin@covid.se 
-          token: Coffee1234 
-          Active JWT: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im9mU0poLW1tSm1EczNpcFBiRW9KQyJ9.eyJpc3MiOiJodHRwczovL2Z3ZGRldi5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjE3NTk2Yzk1ZDNkOWQwMDcwZjA4Zjk0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiaWF0IjoxNjM1NzUxODczLCJleHAiOjE2MzU3NTkwNzMsImF6cCI6ImFrcW16RHFydTR0aXNvSkZKaWtKSG9iUGNTQVpUVndlIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.RYOkkDAT5od1zpFeDj3QsJqI-TMD5FzVY4z8uzyZjN-yBbzReIXVQz1IbDrxeaZ-AKtGXgabOxaQzf9-k0uC1wRH-BlZokVrtGm4amv-xwllvM00jkasIb4wTzA8ZhSULSO5gQjZ5TDhYpnqhTI09hHjnlegGp-Lx3T6qqAxApCoLBXnF-30G0_ro0FzzuPyuZ1BUHpWjT2P6umIi6zyTIOqw8uYhatCrDh6kKaaBdNV0wLc6X9qrF0oRRIR8VuTG-vI-CvEgWgc-IcEJV7tavx6MYd5VL5pcLFspOY2SMMSwAHxW5YX5b6xvh0ma5fjbkZzCnoTK2q8w4KGnk7DwQ
+          token: Covid1234 
+          Active JWT: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im9mU0poLW1tSm1EczNpcFBiRW9KQyJ9.eyJpc3MiOiJodHRwczovL2Z3ZGRldi5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjE5MGQ4NGZhM2EzODYwMDZhYjVlNzY5IiwiYXVkIjoic2VfY292aWQyMDIxIiwiaWF0IjoxNjM3NDA2NTEwLCJleHAiOjE2Mzc0MTM3MTAsImF6cCI6IjlQOTBFdnN6clVmSFJtcDJBS1RPaVFzWVVJYnlrUUluIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6Y2FzZXMiLCJkZWxldGU6dmFjY2luIiwiZ2V0OmNhc2VfYWdlZ3JvdXAiLCJnZXQ6Y2FzZXMiLCJnZXQ6dmFjY2luIiwicGF0Y2g6Y2FzZXMiLCJwb3N0OmNhc2VzIiwicG9zdDp2YWNjaW4iXX0.UwI9v6rFN7Qf5KXNyA4T3YmOK2Ow_Ph-QMnHOgo9vFmMtOLQU3bnWrT34L3lBME1MpZ_aCS82h22HHtU4F46ZNwS1Ff-NCrUu_PijpKYH6QsLjpMAtV_6dVLyfEwLgvoK-uXbsPOr1lg28AFTk1p6vlsmz-9uNBH_AI15ayWWiM3x84UhIqSXpiFeJa4xcJHCT1CEfxTxZdttvGFoH6AWXAQUWiGFBZk8uzTh2HDi7kD9EVguKEsxJpI9Cbn9Gc91_FfUuClCOixCD3qiukh-kXa2kH2UmoPjO2pRKFlxsGo0xNpHPV9baNRVGj1C3tju9p-7nTsqRK-J2DzmQ3EBw
 
         - user: user@covid.se 
-          token: Coffee5678
-          Active JWT: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im9mU0poLW1tSm1EczNpcFBiRW9KQyJ9.eyJpc3MiOiJodHRwczovL2Z3ZGRldi5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjE3NTk3ZTdlZDNhMjkwMDY4YjY5YTMxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiaWF0IjoxNjM1NzEyNTYwLCJleHAiOjE2MzU3MTk3NjAsImF6cCI6ImFrcW16RHFydTR0aXNvSkZKaWtKSG9iUGNTQVpUVndlIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6ZHJpbmtzIiwiZ2V0OmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.hXWjDRFDRQQcpM8gCbTA8ZtRF4LQuaOhjl_sRGeUsWYDX_MMYHB9YOvIDFAyf75P6eJk5R-66A9fP91IsybCvkTpBsnCfqK6gqmrGsI_yoKn05Rjl7MxZFBGDmCoDkmqGpVJgCGUedkwPIpo8ZyaoewsA97ZxbORJl0ftH8CersPUMiys1QsQCvcoOQKc2Yoyx4WkA264KyxmC9E_d5pbZ4Zuva-8rN3H-m78UZo-cin5v0qhFS6Rr-btXPXmelqy6THSfZt9aRAnNUkNwJLjeJHBgXn0sXh4tQQqlqOkGQ3an59f3dwxjhPs9O83q8Q4OYjCOfZlyc_JuFlShKCQg
+          token: Covid5678
+          Active JWT: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im9mU0poLW1tSm1EczNpcFBiRW9KQyJ9.eyJpc3MiOiJodHRwczovL2Z3ZGRldi5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjE5MGQ3Y2Y0NzBkMDcwMDY5MzA5MDA4IiwiYXVkIjoic2VfY292aWQyMDIxIiwiaWF0IjoxNjM3NDA2NjAyLCJleHAiOjE2Mzc0MTM4MDIsImF6cCI6IjlQOTBFdnN6clVmSFJtcDJBS1RPaVFzWVVJYnlrUUluIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6Y2FzZV9hZ2Vncm91cCIsImdldDpjYXNlcyIsImdldDp2YWNjaW4iXX0.FecdM2g3stA22UA_8ki4wk63Hqh5U5VD5Uz7CF0BiPxNiD8EuE18H3eqrNNKGvCTspirf2NSlu43Pceqs7q6B7OkqnS5bsAuT9XFhc2Yyc7SkeejsO1FjZHsv-csUkp5vWQ_yQAxOJpW5kpe_XquTuGV67x5uKpAboLHvduGsT38fPBoLgBXYJueEPfG4bmZwyN4tRdPzMPMwV7mPU6TPzg6UBpnYSNwjCObd9GcCBtNLcj96gwlnbMFkov7Pauzbc8Y1K-Yp2NMJsO914MpisJ43DIw8TvvljPPDZC97C6Ve7td1Ec-2Dksg5LGNH11bvWDfd1Su5Wb-3QxP3SK4g
         ```
         
-
 ## Authors
 
 Arianna E.
@@ -318,13 +331,17 @@ Arianna E.
 - https://til.cybertec-postgresql.com/post/2019-09-12-%22PostgreSQL-CSV-Import:-missing-data-for-column-%22...%22%22/
 - https://chartio.com/resources/tutorials/how-to-change-a-user-to-superuser-in-postgresql/
 - https://stackoverflow.com/questions/40918479/querying-with-function-on-flask-sqlalchemy-model-gives-basequery-object-is-not-c
-- https://riptutorial.com/sqlalchemy/example/6614/converting-a-query-result-to-dict
-- https://stackoverflow.com/questions/62688256/sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy-dialectspostgre
 - https://github.com/udacity/cd0037-API-Development-and-Documentation-exercises/blob/master/4_TDD_Review/backend/flaskr/__init__.py
 - https://github.com/morphocluster/morphocluster/tree/master/migrations
+- https://www.jhipster.tech/tips/028_tip_pgadmin_heroku.html
 - https://github.com/facebook/create-react-app/issues/9619
 - https://www.outsystems.com/forums/discussion/46385/how-to-concatenate-a-string-to-html-string/
-- https://www.jhipster.tech/tips/028_tip_pgadmin_heroku.html
-
-
-
+- https://github.com/auth0-samples/auth0-python-web-app/blob/master/01-Login/server.py
+- https://auth0.com/docs/quickstart/webapp/python/01-login
+- https://docs.djangoproject.com/en/2.1/ref/templates/language/#template-inheritance
+- https://books.google.se/books?id=GedDDwAAQBAJ&pg=PA194&lpg=PA194&dq=def+callback_handling():+++++++++++++if+session.get(%22token%22):&source=bl&ots=2ns8Qtl4-_&sig=ACfU3U0Z8ZnwDKyGhHpUlhcVmpfi-Ti-sQ&hl=sv&sa=X&ved=2ahUKEwiH8fTEyKf0AhViwosKHRtADRsQ6AF6BAgCEAM#v=onepage&q=def%20callback_handling()%3A%20%20%20%20%20%20%20%20%20%20%20%20%20if%20session.get(%22token%22)%3A&f=false
+- https://github.com/auth0-samples/auth0-python-web-app/tree/master/01-Login
+- https://python-adv-web-apps.readthedocs.io/en/latest/flask_forms.html
+- Data source:
+    - https://www.folkhalsomyndigheten.se/smittskydd-beredskap/utbrott/aktuella-utbrott/covid-19/statistik-och-analyser/bekraftade-fall-i-sverige/
+    - https://www.folkhalsomyndigheten.se/smittskydd-beredskap/utbrott/aktuella-utbrott/covid-19/statistik-och-analyser/statistik-over-registrerade-vaccinationer-covid-19/
